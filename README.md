@@ -29,6 +29,16 @@ Thank you for using Secure Password Generator!
 
 The displayed password is an example; each run produces a random result.
 
+## Screenshots
+
+### Password generator interface
+
+![Secure Password Generator home screen](docs/screenshots/password-generator-home.png)
+
+### Analytics dashboard
+
+![Password generator analytics dashboard](docs/screenshots/password-generator-dashboard.png)
+
 ## Code walkthrough
 
 - `import random` loads the standard-library module used to choose and shuffle characters. `import string` provides the uppercase, lowercase, and digit character sets.

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080d14">
+    <meta name="description" content="Review local password generation analytics and trends.">
+    <title>Analytics Dashboard | Northstar Security</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="dashboard.js" defer></script>
+  </head>
+  <body class="dashboard-page">
+    <main class="dashboard-shell">
+      <header class="dashboard-topbar">
+        <a class="dashboard-brand" href="index.html" aria-label="Northstar Security password generator">
+          <span class="dashboard-brand-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <span class="dashboard-brand-name">NORTHSTAR <span>SECURITY</span></span>
+        </a>
+        <nav class="dashboard-nav-group" aria-label="Main navigation">
+          <a class="dashboard-nav-link" href="index.html"><i class="fa-solid fa-key" aria-hidden="true"></i> Generator</a>
+          <span class="dashboard-nav-link is-active" aria-current="page"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Analytics</span>
+        </nav>
+      </header>
+
+      <section class="dashboard-main" aria-labelledby="dashboardTitle">
+        <div class="dashboard-heading-row">
+          <div>
+            <div class="dashboard-eyebrow"><i class="fa-solid fa-wave-square" aria-hidden="true"></i> SECURITY OPERATIONS / OVERVIEW</div>
+            <h1 class="dashboard-title" id="dashboardTitle">Analytics Dashboard</h1>
+            <p class="dashboard-subtitle">A clear view of password generation activity on this browser.</p>
+          </div>
+          <div class="dashboard-actions">
+            <button class="dashboard-button dashboard-button--danger" id="resetAnalytics" type="button">
+              <i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Reset analytics</span>
+            </button>
+            <button class="dashboard-button dashboard-button--primary" id="downloadAnalytics" type="button">
+              <i class="fa-solid fa-download" aria-hidden="true"></i><span>Download JSON</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="dashboard-alert" id="dashboardAlert" role="status" hidden></p>
+        <div class="empty-state" id="emptyState" role="status" hidden>
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <span>No generation activity yet. Create a password to start building your local analytics.</span>
+          <a class="dashboard-nav-link" href="index.html">Open generator <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+
+        <section class="stats-grid" aria-label="Password generation summary">
+          <article class="stat-card stat-card--total">
+            <div class="stat-topline"><span class="stat-label">Total passwords</span><span class="stat-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span></div>
+            <strong class="stat-value" id="totalPasswords">0</strong><span class="stat-detail">Generated in this browser</span>
+          </article>
+          <article class="stat-card stat-card--strong">
+            <div class="stat-topline"><span class="stat-label">Strong passwords</span><span class="stat-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span></div>
+            <strong class="stat-value" id="strongPasswords">0</strong><span class="stat-detail">16 characters and above</span>
+          </article>
+          <article class="stat-card stat-card--medium">
+            <div class="stat-topline"><span class="stat-label">Medium passwords</span><span class="stat-icon"><i class="fa-solid fa-shield" aria-hidden="true"></i></span></div>
+            <strong class="stat-value" id="mediumPasswords">0</strong><span class="stat-detail">10 to 15 characters</span>
+          </article>
+          <article class="stat-card stat-card--weak">
+            <div class="stat-topline"><span class="stat-label">Weak passwords</span><span class="stat-icon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span></div>
+            <strong class="stat-value" id="weakPasswords">0</strong><span class="stat-detail">6 to 9 characters</span>
+          </article>
+          <article class="stat-card stat-card--average">
+            <div class="stat-topline"><span class="stat-label">Average length</span><span class="stat-icon"><i class="fa-solid fa-text-height" aria-hidden="true"></i></span></div>
+            <strong class="stat-value" id="averageLength">--</strong><span class="stat-detail">Characters per password</span>
+          </article>
+        </section>
+
+        <section class="chart-grid" aria-label="Password analytics charts">
+          <article class="chart-panel chart-panel--wide">
+            <div class="chart-panel-heading"><div><h2 class="chart-title">Strong Passwords Generated Per Day</h2><p class="chart-subtitle">Daily count of strong password generations</p></div><span class="chart-index">01 / DAILY</span></div>
+            <div class="chart-stage"><canvas id="strongByDayChart" role="img" aria-label="Bar chart of strong passwords generated per day"></canvas></div>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-panel-heading"><div><h2 class="chart-title">Strength Distribution</h2><p class="chart-subtitle">Weak vs medium vs strong</p></div><span class="chart-index">02 / MIX</span></div>
+            <div class="chart-stage"><canvas id="strengthChart" role="img" aria-label="Doughnut chart of password strength distribution"></canvas></div>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-panel-heading"><div><h2 class="chart-title">Password Length Distribution</h2><p class="chart-subtitle">Generated passwords grouped by length</p></div><span class="chart-index">03 / LENGTH</span></div>
+            <div class="chart-stage"><canvas id="lengthChart" role="img" aria-label="Pie chart of password length distribution"></canvas></div>
+          </article>
+          <article class="chart-panel chart-panel--wide">
+            <div class="chart-panel-heading"><div><h2 class="chart-title">Password Generation Trend Over Time</h2><p class="chart-subtitle">Total generations recorded each day</p></div><span class="chart-index">04 / TREND</span></div>
+            <div class="chart-stage"><canvas id="trendChart" role="img" aria-label="Line chart of password generations over time"></canvas></div>
+          </article>
+        </section>
+
+        <footer class="dashboard-footer">
+          <span><i class="fa-solid fa-lock" aria-hidden="true"></i> ANALYTICS STORED LOCALLY · PASSWORD CONTENT IS NEVER SAVED</span>
+          <span id="lastUpdated">Waiting for activity</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

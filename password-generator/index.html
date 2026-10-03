@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff1f5">
+    <meta name="description" content="Generate strong passwords locally with the Secure Password Generator.">
+    <title>Secure Password Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <div class="particle-field" id="particleField" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#main" aria-label="Secure Password Generator home">
+          <span class="brand-mark"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <span class="brand-name">NORTHSTAR <span>SECURITY</span></span>
+        </a>
+        <div class="topbar-actions">
+          <a class="dashboard-nav" href="dashboard.html">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <span>Analytics dashboard</span>
+          </a>
+          <div class="connection-status"><span class="status-pulse"></span> PRIVATE SESSION</div>
+        </div>
+      </header>
+
+      <section class="main-content" id="main" aria-labelledby="page-title">
+        <div class="intro-label"><span class="intro-line"></span> PERSONAL SECURITY TOOLKIT</div>
+
+        <div class="card-frame">
+          <section class="generator-card" aria-label="Password generator">
+            <div class="card-topline">
+              <div class="card-icon"><i class="fa-solid fa-lock" aria-hidden="true"></i></div>
+              <span class="local-badge"><i class="fa-solid fa-circle" aria-hidden="true"></i> LOCAL ONLY</span>
+            </div>
+
+            <div class="heading-block">
+              <h1 id="page-title">Secure Password<br><span>Generator</span></h1>
+              <p>Generate Strong &amp; Secure Passwords Instantly</p>
+            </div>
+
+            <div class="form-section">
+              <div class="section-heading">
+                <label for="passwordLength">Password length</label>
+                <span class="field-hint">6-64 CHARACTERS</span>
+              </div>
+              <div class="length-control">
+                <button class="step-button" id="decreaseLength" type="button" aria-label="Decrease password length">
+                  <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                </button>
+                <input id="passwordLength" class="length-input" type="number" min="6" max="64" value="18" inputmode="numeric" aria-describedby="lengthError">
+                <span class="length-unit">CHARS</span>
+                <button class="step-button" id="increaseLength" type="button" aria-label="Increase password length">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <p class="field-error" id="lengthError" role="alert" hidden>Choose a whole number between 6 and 64.</p>
+            </div>
+
+            <div class="form-section character-section">
+              <div class="section-heading">
+                <span>Character set</span>
+                <span class="field-hint">REQUIRED GROUPS</span>
+              </div>
+              <div class="required-groups" aria-label="Required character groups">
+                <span class="group-chip"><i class="fa-solid fa-check" aria-hidden="true"></i> A-Z</span>
+                <span class="group-chip"><i class="fa-solid fa-check" aria-hidden="true"></i> a-z</span>
+                <span class="group-chip"><i class="fa-solid fa-check" aria-hidden="true"></i> 0-9</span>
+              </div>
+              <label class="toggle-row" for="includeSymbols">
+                <span class="toggle-copy"><span>Include symbols</span><small>Give your password an extra edge</small></span>
+                <input class="toggle-input" id="includeSymbols" type="checkbox">
+                <span class="toggle-track" aria-hidden="true"><span></span></span>
+              </label>
+            </div>
+
+            <div class="form-section result-section">
+              <div class="section-heading">
+                <label for="passwordOutput">Your password</label>
+                <span class="field-hint" id="resultState">AWAITING GENERATION</span>
+              </div>
+              <div class="password-output-shell">
+                <input id="passwordOutput" class="password-output" type="text" placeholder="Your password will appear here" autocomplete="off" autocapitalize="off" spellcheck="false" readonly aria-label="Generated password">
+                <button class="visibility-button" id="visibilityButton" type="button" aria-label="Hide password" title="Hide password" disabled>
+                  <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="result-actions">
+                <div class="strength-wrap" id="strengthWrap" data-strength="none">
+                  <div class="strength-copy">
+                    <span class="strength-caption">PASSWORD STRENGTH</span>
+                    <span class="strength-label" id="strengthLabel">Not generated</span>
+                  </div>
+                  <div class="strength-meter" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+                <button class="copy-button" id="copyButton" type="button" disabled>
+                  <i class="fa-regular fa-copy" aria-hidden="true"></i><span>Copy</span>
+                </button>
+              </div>
+              <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
+            </div>
+
+            <button class="generate-button" id="generateButton" type="button">
+              <span class="button-spinner" aria-hidden="true"></span>
+              <i class="fa-solid fa-wand-magic-sparkles button-icon" aria-hidden="true"></i>
+              <span class="button-label">Generate password</span>
+              <i class="fa-solid fa-arrow-right button-arrow" aria-hidden="true"></i>
+            </button>
+
+            <div class="card-footnote">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              <span>Created in your browser. Never sent or stored.</span>
+            </div>
+          </section>
+        </div>
+
+        <footer class="page-footer">
+          <span><i class="fa-solid fa-fingerprint" aria-hidden="true"></i> CLIENT-SIDE GENERATION</span>
+          <span class="footer-divider"></span>
+          <span>YOUR SECURITY, BY DESIGN</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
